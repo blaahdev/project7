@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- START OF GSAP SCRIPT -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Flip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Observer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollToPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Draggable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/EaselPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/PixiPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/TextPlugin.min.js"></script>
+
+    <!-- RoughEase, ExpoScaleEase and SlowMo are all included in the EasePack file -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/EasePack.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/CustomEase.min.js"></script>
+    <!-- END OF GSAP SCRIPT -->
+  </head>
+  <style>
+    body > div {
+      min-height: 50vh;
+    }
+    .flex-row {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+    }
+
+    .circle {
+      width: 200px;
+      height: 200px;
+      background-color: darkslateblue;
+      color: white;
+      border-radius: 500vw;
+      position: relative;
+      display: grid;
+      place-content: center;
+    }
+    .circle .bg {
+      background-color: pink;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+    }
+
+    .circle > .text {
+      position: relative;
+      z-index: 3;
+      color: white;
+    }
+  </style>
+  <body>
+    <h1>BASIC GSAP.to / from / fromTo</h1>
+    <div>
+      <svg id="box1" width="100" height="100" style="border: 1px solid black">
+        <rect
+          x="0"
+          y="0"
+          width="100"
+          height="100"
+          fill="salmon"
+          stroke="black"
+          stroke-width="5"
+        />
+      </svg>
+      <svg id="box2" width="100" height="100" style="border: 1px solid black">
+        <rect
+          x="0"
+          y="0"
+          width="100"
+          height="100"
+          fill="darkblue"
+          stroke="black"
+          stroke-width="5"
+        />
+      </svg>
+    </div>
+    <hr />
+    <h1>STAGGER</h1>
+    <div class="stack1">
+      <svg width="100" height="100" style="border: 1px solid black">
+        <rect
+          x="0"
+          y="0"
+          width="100"
+          height="100"
+          fill="green"
+          stroke="black"
+          stroke-width="5"
+        />
+      </svg>
+      <svg width="100" height="100" style="border: 1px solid black">
+        <rect
+          x="0"
+          y="0"
+          width="100"
+          height="100"
+          fill="green"
+          stroke="black"
+          stroke-width="5"
+        />
+      </svg>
+      <svg width="100" height="100" style="border: 1px solid black">
+        <rect
+          x="0"
+          y="0"
+          width="100"
+          height="100"
+          fill="green"
+          stroke="black"
+          stroke-width="5"
+        />
+      </svg>
+    </div>
+    <hr />
+    <h1>Tween Control</h1>
+    <div>
+      <svg
+        id="tween-control"
+        width="100"
+        height="100"
+        style="border: 1px solid black"
+      >
+        <rect
+          x="0"
+          y="0"
+          width="100"
+          height="100"
+          fill="green"
+          stroke="black"
+          stroke-width="5"
+        />
+      </svg>
+      <div class="flex-row">
+        <button id="play">Play</button>
+        <button id="pause">Pause</button>
+        <button id="reverse">Reverse</button>
+        <button id="restart">Restart</button>
+      </div>
+    </div>
+    <hr />
+    <h1>Transform Origin</h1>
+    <img class="truck" src="./assets/truck.svg" alt="truck" />
+    <div>
+      <h2>
+        Custom transform origin value by clicking on point within the image
+      </h2>
+    </div>
+    <hr />
+    <div>
+      <h1>Why from() Tweens Glitch and Stop Working</h1>
+      <div id="tween-bug" class="circle button">
+        <span class="text">hover</span>
+        <div class="circle bg"></div>
+      </div>
+    </div>
+  </body>
+  <script>
+    // -------------------//
+    //(A) BASIC. optional: default: duration: 0.5 (in s)
+    gsap.to("#box1", { x: 100 });
+    // MORE
+    gsap.to("#box2", {
+      x: 100,
+      fill: "yellow",
+      rotate: 360,
+      duration: 3,
+      ease: "linear",
+    });
+    // -------------------//
+    //(B) Target multiple + do stagger. here means between each item its 1s
+    gsap.to(".stack1 > svg", { y: 100, stagger: 1 });
+    gsap.to(".stack1 > svg", {
+      y: 100,
+      stagger: {
+        each: 1, //same as above
+      },
+    });
+    gsap.to(".stack1 > svg", {
+      y: 100,
+      stagger: {
+        amount: 1, //means SUM OF ALL stagger is 1s
+        front: "edges", // center | end | edges
+      },
+    });
+    // -------------------//
+    //(C) TWEEN CONTROL
+    let tween = gsap.to("#tween-control", {
+      x: 10,
+      duration: 0.2,
+      ease: "linear",
+      paused: true,
+      paused: true, //start the animaion in paused state
+    });
+    // 3 methods to add listener.
+    //(A)Inline Assignemnt: Directly assigns the fn property. Overrides any prev assigned listener
+    document.getElementById("play").onclick = function () {
+      tween.play();
+    };
+    //(B) Arrow function: Similar to Inline Assignment but doesnt have `this`
+    document.getElementById("pause").onclick = () => {
+      tween.pause();
+    };
+    //(C) Adding event listener allows multiple listeners to be added for the same event.
+    document.getElementById("reverse").addEventListener("click", () => {
+      tween.reverse();
+    });
+    document.getElementById("restart").addEventListener("click", () => {
+      tween.restart();
+    });
+    //!IMPT! tween does not auto restart when hits the end! TF u need the restart! clicking play() 2nd time doesnt continue off from prev position or even restart!
+    // -------------------//
+    //(D) Transform Origin
+    gsap.to(".truck", {
+      // transformOrigin: "bottom left",
+      transformOrigin: "61px 243px",
+      rotate: "-10deg",
+      repeat: 2,
+      yoyo: true,
+    });
+    document.querySelector(".truck").addEventListener("click", (e) => {
+      const rect = e.target.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      console.log(x, y);
+      const tween = gsap.to(".truck", {
+        transformOrigin: `${x}px ${y}px`,
+        rotate: "-10deg",
+        repeat: 2,
+        yoyo: true,
+        pause: true,
+      });
+      tween.restart();
+    });
+    // -------------------//
+    //(E) TWEEN BUG FIX
+    const tween2 = gsap.from("#tween-bug .bg", {
+      scale: 0,
+      duration: 1,
+      // ease: "circ",
+    });
+    document.getElementById("tween-bug").onmouseover = () => tween2.restart();
+    //by default its always to scale: 1, which is the default, but sometmes it isnt if u interrupt its session. Hence, always good to do fromTo
+    const tween3 = gsap.fromTo(
+      "#tween-bug .bg",
+      {
+        //From
+        scale: 0,
+        duration: 1,
+      },
+      {
+        //From
+        scale: 1, //observe: no need duration here
+        ease: "circ",
+      }
+    );
+    document.getElementById("tween-bug").onmouseover = () => tween2.restart();
+  </script>
+</html>

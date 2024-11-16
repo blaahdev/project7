@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Basic SVG</h1>
+    <div>
+      <div class="container">
+        <svg height="600" width="600">
+          <!-- viewport -->
+          <!-- rect -->
+          <rect
+            x="10"
+            y="10"
+            fill="aquamarine"
+            width="100"
+            height="200"
+            stroke="black"
+            stroke-width="4"
+          />
+          <!-- circle -->
+          <circle
+            cx="10"
+            cy="10"
+            fill="salmon"
+            r="100"
+            stroke="black"
+            stroke-width="4"
+          />
+          <!-- ellipse -->
+          <ellipse
+            cx="10"
+            cy="10"
+            fill="darkblue"
+            rx="100"
+            ry="50"
+            stroke="black"
+            stroke-width="4"
+          />
+          <!-- line -->
+          <line
+            x1="200"
+            x2="400"
+            y1="200"
+            y2="400"
+            stroke="crimson"
+            stroke-width="5"
+          />
+          <!-- polyline -->
+          <polyline
+            points="200,40 240,40 240,80 280,80 280,120 320,120 320,160"
+            stroke="coral"
+            stroke-width="5"
+            fill="none"
+          />
+          <!-- polygon -->
+          <polygon
+            points="300,40 340,40 340,80 380,80 380,120 420,120 420,160"
+            stroke="black"
+            stroke-width="5"
+            fill="none"
+          />
+          <!-- path -->
+          <path
+            d="M550 5 L75 500 L525 500 Z"
+            style="fill: none; stroke: green; stroke-width: 3"
+          />
+        </svg>
+      </div>
+    </div>
+    <hr />
+    <!-- -----  -->
+    <!-- -----  -->
+    <!-- -----  -->
+    <div>
+      <h1>More SVG</h1>
+      <ul>
+        <li>GROUPS in SVG</li>
+        <li>DEFS tag & CLIPPING PATHS</li>
+        <li>VIEWPORT vs VIEWBOX</li>
+      </ul>
+      <!-- -----  -->
+      <hr />
+      <h2>1. GROUPS in SVG</h2>
+      <p>
+        Grouping allows to transform or color to entire group instead of
+        individual path etc
+      </p>
+      <svg viewBox="0 0 1000 600">
+        <g id="tris" fill="deeppink" transform="translate(100,0)">
+          <path
+            id="tri1"
+            d="M150 5 L75 200 L225 200 Z"
+            transform="translate(0,0)"
+            style="stroke: green; stroke-width: 3"
+          />
+          <path
+            id="tri2"
+            d="M150 5 L75 200 L225 200 Z"
+            transform="translate(160,0)"
+            style="stroke: darkblue; stroke-width: 3"
+          />
+          <path
+            id="tri3"
+            d="M150 5 L75 200 L225 200 Z"
+            transform="translate(320,0)"
+            style="fill: none; stroke: salmon; stroke-width: 3"
+          />
+        </g>
+      </svg>
+
+      <!-- -----  -->
+      <!-- -----  -->
+      <!-- -----  -->
+      <hr />
+      <h2>2. DEFS tag & CLIPPING PATHS</h2>
+      <p>similar to masking to show or hide</p>
+      <svg viewBox="0 0 1000 600">
+        <defs>
+          <clipPath id="myMask">
+            <rect
+              x="150"
+              y="10"
+              fill="aquamarine"
+              width="200"
+              height="200"
+              stroke="black"
+              stroke-width="4"
+            />
+          </clipPath>
+        </defs>
+        <g id="tris" clip-path="url(#myMask)" fill="deeppink">
+          <path
+            id="tri1"
+            d="M150 5 L75 200 L225 200 Z"
+            transform="translate(0,0)"
+            style="stroke: green; stroke-width: 3"
+          />
+          <path
+            id="tri2"
+            d="M150 5 L75 200 L225 200 Z"
+            transform="translate(160,0)"
+            style="stroke: darkblue; stroke-width: 3"
+          />
+          <path
+            id="tri3"
+            d="M150 5 L75 200 L225 200 Z"
+            transform="translate(320,0)"
+            style="fill: none; stroke: salmon; stroke-width: 3"
+          />
+        </g>
+      </svg>
+      <h2>2. DEFS tag & CLIPPING PATHS</h2>
+      <!-- -----  -->
+      <!-- -----  -->
+      <!-- -----  -->
+      <hr />
+      <h2>3. VIEWPORT & VIEWBOX</h2>
+      <p>
+        this is the VIEWPORT. its a window to the svg canvas. svg is infinite.
+        hence this viewport allows to "view" which part of the svg canvas you
+        wanna view. it will explicitly add viewbox="0 0 yourWidth yourHeight"
+        <br />
+        viewBox="min-x min-y width height"
+        <br />
+        min-x and min-y specify the starting point of the viewBox within the
+        SVG’s coordinate system. The width and height within the viewBox control
+        the visible area and scaling of the content within that coordinate
+        system, regardless of the SVG element's width and height.
+      </p>
+      <svg
+        id="viewport-eg1"
+        width="300"
+        height="300"
+        style="border: 1px solid black"
+      >
+        <!-- this is a viewport -->
+        <!-- explicitly viewbox = "0 0 300 300" -->
+      </svg>
+      <p>you can also explicitly state the viewbox</p>
+      <svg
+        id="viewport-eg2"
+        width="300"
+        height="300"
+        viewbox="-100 -100 300 300"
+        style="border: 1px solid black"
+      >
+        <rect x="100" y="100" fill="darkred" width="100" height="100"></rect>
+        <rect x="-100" y="-100" fill="darkblue" width="100" height="100"></rect>
+      </svg>
+
+      <p>
+        if your svg width and height does not match the viewbox, it still works.
+        the svg width and height is like the x and y axis counting grid in px,
+        while the viewbox-width and viewbox-height is the viewing width. Hence,
+        allow the view to zoom in or out.
+      </p>
+      <svg
+        id="viewport-eg2"
+        width="300"
+        height="300"
+        viewbox="-100 -100 500 500"
+        style="border: 1px solid black"
+      >
+        <rect x="100" y="100" fill="darkred" width="100" height="100"></rect>
+        <rect x="-100" y="-100" fill="darkblue" width="100" height="100"></rect>
+        <rect x="300" y="300" fill="salmon" width="100" height="100"></rect>
+      </svg>
+    </div>
+  </body>
+</html>
